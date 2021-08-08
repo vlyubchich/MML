@@ -4,7 +4,7 @@
 \alias{partial_qrf}
 \title{Partial Dependence Plot for Quantile Random Forest}
 \usage{
-partial_qrf(object, pred.var, Q = c(0.1, 0.5, 0.9), ...)
+partial_qrf(object, pred.var, Q = c(0.05, 0.5, 0.95), ...)
 }
 \arguments{
 \item{object}{a \code{\link[ranger]{ranger}} quantile random forest object.}

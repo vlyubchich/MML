@@ -56,7 +56,7 @@
 #'}
 #'
 partial_qrf <- function(object, pred.var
-                        ,Q = c(0.1, 0.5, 0.9)
+                        ,Q = c(0.05, 0.5, 0.95)
                         ,...)
 {
     Q <- sort(unique(Q))
