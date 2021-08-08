@@ -8,7 +8,8 @@ Authors@R: c(person("Vyacheslav", "Lyubchich",
                     comment = c(ORCID = "0000-0001-7936-4285"),
                     email="lyubchich@umces.edu"))
 Description: Miscellaneous functions for machine-learning tasks.
+Imports: pdp
+Suggests: dplyr, ggplot2, hrbrthemes, ranger, viridis
 License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
