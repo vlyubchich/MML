@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Renviron
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+vignettes/*.R
+vignettes/plots/figures
+
+# old releases
+oldrel
+
+# extra files
+.DS_Store
