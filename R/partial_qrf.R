@@ -1,7 +1,7 @@
 #' Partial Dependence Plot for Quantile Random Forest
 #'
 #' Get a data frame for partial dependence plots from a quantile random forest.
-#' The plots can be obtained with a variety of plotting functions from other packages.
+#' The plots can be obtained using plotting functions from other packages.
 #'
 #' @param object a \code{\link[ranger]{ranger}} quantile random forest object.
 #' @param pred.var character string giving the names of the predictor variables of
@@ -44,7 +44,8 @@
 #'     ggplot(aes(Agriculture, Examination, group = Quantile, color = Quantile)) +
 #'     geom_line() +
 #'     scale_color_viridis(discrete = TRUE) +
-#'     theme_ipsum()
+#'     theme_ipsum() +
+#'     guides(color = guide_legend(reverse = TRUE))
 #'
 #' # a plot for one quantile for 2 predictors (takes longer, so save as an object)
 #' df <- partial_qrf(qrf, pred.var = c("Agriculture", "Catholic"), Q = 0.5)
