@@ -12,7 +12,8 @@
 #' @return A \code{data.frame} with the following columns:
 #' the predictor variables supplied in \code{pred.var},
 #' response variable (the name is extracted from the \code{ranger} function call),
-#' and, if \code{length(Q) > 1}, one more column named \code{"Quantile"}.
+#' and, if \code{length(Q) > 1}, one more column named \code{"Quantile"}
+#' (for an appropriate order of labels in the plots, \code{Quantile} is a factor).
 #'
 #' @seealso \code{\link[pdp]{partial}}, \code{\link[ranger]{ranger}}
 #'
@@ -32,28 +33,56 @@
 #' # fit a quantile random forest
 #' qrf <- ranger::ranger(Examination ~ ., data = swiss, quantreg = TRUE, num.trees = 50)
 #'
-#' # a plot for one quantile
+#' # 1.1) a plot for one quantile
 #' partial_qrf(qrf, pred.var = "Agriculture", Q = 0.5) %>%
 #'     ggplot(aes(Agriculture, Examination)) +
-#'     geom_line()
+#'         geom_line()
 #'
-#' # a plot for several quantiles, with decorations
+#' # 1.2) a plot for several quantiles, with decorations
 #' library(hrbrthemes)
 #' library(viridis)
 #' partial_qrf(qrf, pred.var = "Agriculture") %>%
-#'     ggplot(aes(Agriculture, Examination, group = Quantile, color = Quantile)) +
-#'     geom_line() +
-#'     scale_color_viridis(discrete = TRUE) +
-#'     theme_ipsum() +
-#'     guides(color = guide_legend(reverse = TRUE))
+#'    ggplot(aes(Agriculture, Examination, group = Quantile, color = Quantile)) +
+#'        geom_line() +
+#'        scale_color_viridis(discrete = TRUE) +
+#'        theme_ipsum()
 #'
-#' # a plot for one quantile for 2 predictors (takes longer, so save as an object)
-#' df <- partial_qrf(qrf, pred.var = c("Agriculture", "Catholic"), Q = 0.5)
+#' # 1.3) a plot for one quantile for 2 predictors (takes longer, so
+#' # save as an object, can also redefine pred.grid or decrease grid.resolution)
+#' df <- partial_qrf(qrf, pred.var = c("Agriculture", "Catholic"), Q = 0.5,
+#'     grid.resolution = 20)
 #' ggplot(df, aes(Agriculture, Catholic)) +
 #'     geom_tile(aes(fill = Examination)) +
 #'     scale_fill_viridis() +
 #'     theme_ipsum() +
 #'     labs(fill = "Median\nexamination")
+#'
+#'
+#' # 1.4) a plot for each variable
+#' # define a vector of variable names and desired quantiles
+#' varnames <- qrf$forest$independent.variable.names
+#' qs <- c(0.01, 0.025, 0.05)
+#' # save outputs in a list
+#' ddf <- lapply(varnames, function(vn) partial_qrf(qrf, pred.var = vn, Q = qs))
+#' # use your preferred plotting functions, e.g., ggplot2 with patchwork
+#' # for a common y-axis, get ranges
+#' yrange <- range(sapply(ddf, function(x) range(x[,2])))
+#' # then create a list of ggplots
+#' plist <- lapply(seq_along(varnames), function(vi) {
+#'     ggplot(ddf[[vi]], aes_string(x = varnames[vi], y = "Examination",
+#'         group = "Quantile", color = "Quantile")) +
+#'         geom_line() +
+#'         scale_color_viridis(discrete = TRUE) +
+#'         theme_ipsum(plot_margin = ggplot2::margin(10, 10, 10, 10)) +
+#'         ylim(yrange[1], yrange[2]) + theme(axis.title.y = element_blank())
+#' })
+#' # then organize the plots
+#' library(patchwork)
+#' pl <- wrap_plots(plist) + plot_layout(guides = "collect")
+#' pl
+#' # can stop here or continue grouping
+#' gpl <- patchwork::patchworkGrob(pl)
+#' gridExtra::grid.arrange(gpl, left = "Examination")
 #'}
 #'
 partial_qrf <- function(object, pred.var
@@ -64,7 +93,9 @@ partial_qrf <- function(object, pred.var
     predfun <- function(object, newdata) {
         qpred <- predict(object, newdata, type = "quantiles", quantiles = Q)$predictions
         tmp <- c(apply(qpred, 2, mean))
-        names(tmp) <- paste0("q", Q*100)
+        qq <- paste0("q", Q)
+        qq <<- qq <- gsub("\\.", "_", qq)
+        names(tmp) <- qq
         return(tmp)
     }
     pdpout <- pdp::partial(object
@@ -78,6 +109,7 @@ partial_qrf <- function(object, pred.var
     }
     if (length(Q) > 1) {
         colnames(pdpout)[ncol(pdpout)] <- "Quantile"
+        pdpout$Quantile <- factor(pdpout$Quantile, levels = rev(qq))
     }
     return(pdpout)
 }
