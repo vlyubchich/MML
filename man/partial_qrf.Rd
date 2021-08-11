@@ -93,4 +93,5 @@ gridExtra::grid.arrange(gpl, left = "Examination")
 \code{\link[pdp]{partial}}, \code{\link[ranger]{ranger}}
 }
 \keyword{forest}
+\keyword{partial}
 \keyword{quantile}

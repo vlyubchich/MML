@@ -17,7 +17,7 @@
 #'
 #' @seealso \code{\link[pdp]{partial}}, \code{\link[ranger]{ranger}}
 #'
-#' @keywords quantile forest
+#' @keywords quantile forest partial
 #'
 #' @importFrom pdp partial
 #' @importFrom stats predict

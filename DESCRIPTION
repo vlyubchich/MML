@@ -1,15 +1,16 @@
 Package: MML
 Type: Package
 Title: Misc Machine Learning
-Version: 0.0.1
-Date: 2021-08-07
+Version: 0.0.2
+Date: 2021-08-11
 Authors@R: c(person("Vyacheslav", "Lyubchich", 
                     role = c("aut", "cre"),
                     comment = c(ORCID = "0000-0001-7936-4285"),
                     email="lyubchich@umces.edu"))
 Description: Miscellaneous functions for machine-learning tasks.
-Imports: pdp
-Suggests: dplyr, ggplot2, gridExtra, hrbrthemes, patchwork, ranger, viridis
+Imports: Rdpack, pdp
+Suggests: dplyr, ggplot2, gridExtra, hrbrthemes, patchwork, quantreg, ranger, viridis
+RdMacros: Rdpack
 License: GPL (>= 3)
 Encoding: UTF-8
 RoxygenNote: 7.1.1
