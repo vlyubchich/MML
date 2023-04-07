@@ -1,0 +1,19 @@
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+citHeader("To cite MML in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "{MML}: Misc Machine Learning",
+  author   = c(person("Vyacheslav", "Lyubchich")),
+  year     = year,
+  note     = note,
+  url      = "https://github.com/vlyubchich/MML",
+  textVersion = paste0("Lyubchich, V. (",
+                       year,
+                       "). MML: Misc Machine Learning. ",
+                       note,
+                       ". https://github.com/vlyubchich/MML"
+  )
+)

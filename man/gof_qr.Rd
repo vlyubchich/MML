@@ -34,6 +34,7 @@ is defined as
 \deqn{R^1(v) = 1 - \frac{\sum_{i=1}^n p_v(y_i - \hat{y}_i(v))}{\sum_{i=1}^n p_v(y_i - y_v)}}
 and average \eqn{v}-weighted absolute error (ATWE) is
 \deqn{ATWE(v) = n^{-1}\sum_{i=1}^n p_v(y_i - \hat{y}_i(v)).}
+Higher \eqn{R^1} and lower ATWE are preferred.
 }
 \examples{
 \dontrun{

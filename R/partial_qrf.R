@@ -94,7 +94,8 @@ partial_qrf <- function(object, pred.var
         qpred <- predict(object, newdata, type = "quantiles", quantiles = Q)$predictions
         tmp <- c(apply(qpred, 2, mean))
         qq <- paste0("q", Q)
-        qq <<- qq <- gsub("\\.", "_", qq)
+        # qq <<-
+        qq <- gsub("\\.", "_", qq)
         names(tmp) <- qq
         return(tmp)
     }
@@ -109,7 +110,7 @@ partial_qrf <- function(object, pred.var
     }
     if (length(Q) > 1) {
         colnames(pdpout)[ncol(pdpout)] <- "Quantile"
-        pdpout$Quantile <- factor(pdpout$Quantile, levels = rev(qq))
+        # pdpout$Quantile <- factor(pdpout$Quantile, levels = rev(qq))
     }
     return(pdpout)
 }

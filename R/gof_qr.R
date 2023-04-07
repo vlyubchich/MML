@@ -11,6 +11,7 @@
 #' \deqn{R^1(v) = 1 - \frac{\sum_{i=1}^n p_v(y_i - \hat{y}_i(v))}{\sum_{i=1}^n p_v(y_i - y_v)}}
 #' and average \eqn{v}-weighted absolute error (ATWE) is
 #' \deqn{ATWE(v) = n^{-1}\sum_{i=1}^n p_v(y_i - \hat{y}_i(v)).}
+#' Higher \eqn{R^1} and lower ATWE are preferred.
 #'
 #' @param obs a numeric vector or a column matrix of observed values.
 #' @param pred a numeric vector or a matrix of predicted quantiles (columns represent different quantiles).
@@ -32,7 +33,7 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' # Example 1: Swiss
 #' # select 30% of data for testing
 #' n <- nrow(swiss)
@@ -60,12 +61,12 @@
 gof_qr <- function(obs, pred, quantiles = NULL) {
     pred <- cbind(pred)
     if (is.null(quantiles)) {
-        # if not specified, try to get them from the pred names assuming pred is a ranger output
+        # if not specified, try to get quantiles from the pred names
         quantiles <- colnames(pred)
         quantiles <- sapply(base::strsplit(quantiles, "[= ]+"), function(x) x[2])
         quantiles <- as.numeric(quantiles)
     }
-    if (!is.null(quantiles) && length(quantiles) != ncol(pred)) {
+    if (!is.null(quantiles) && (length(quantiles) != ncol(pred))) {
         stop("number of columns in 'pred' should match length(quantiles). Try setting 'quantiles = NULL'")
     }
     # pv function as in Eq 2 of Haupt et al. (2011)

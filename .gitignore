@@ -14,4 +14,5 @@ vignettes/plots/figures
 oldrel
 
 # extra files
+misc/
 .DS_Store
